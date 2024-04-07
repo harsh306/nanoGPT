@@ -95,6 +95,8 @@ class LoRAEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.lora_encoder = nn.Linear(config.n_embd, config.n_embd, bias=config.bias)
+        nn.init.zeros_(self.lora_encoder.weight)
+        nn.init.zeros_(self.lora_encoder.bias)
 
     def forward(self, x):
         x = self.lora_encoder(x)
