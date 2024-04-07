@@ -18,7 +18,7 @@ always_save_checkpoint = False
 # shakespeare has 301,966 tokens, so 1 epoch ~= 9.2 iters
 batch_size = 4
 block_size = 1024
-gradient_accumulation_steps = 8
+gradient_accumulation_steps = 1
 max_iters = 2000
 
 # finetune at constant LR
