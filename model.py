@@ -91,6 +91,15 @@ class MLP(nn.Module):
         x = self.dropout(x)
         return x
 
+class LoRAEncoder(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.lora_encoder = nn.Linear(config.n_embd, config.n_embd, bias=config.bias)
+
+    def forward(self, x):
+        x = self.lora_encoder(x)
+        return x
+
 class Block(nn.Module):
 
     def __init__(self, config):
@@ -136,6 +145,7 @@ class GPT(nn.Module):
         # This behavior is deprecated and will be an error in future versions"
         # not 100% sure what this is, so far seems to be harmless. TODO investigate
         self.transformer.wte.weight = self.lm_head.weight # https://paperswithcode.com/method/weight-tying
+        self.lora_encoder = LoRAEncoder(config)
 
         # init all weights
         self.apply(self._init_weights)
@@ -177,8 +187,15 @@ class GPT(nn.Module):
         tok_emb = self.transformer.wte(idx) # token embeddings of shape (b, t, n_embd)
         pos_emb = self.transformer.wpe(pos) # position embeddings of shape (t, n_embd)
         x = self.transformer.drop(tok_emb + pos_emb)
+        count = 0
         for block in self.transformer.h:
+            count += 1
             x = block(x)
+            if count == 6:
+                x_6 = x
+            if count == 9:
+                x = x + self.lora_encoder(x_6)
+
         x = self.transformer.ln_f(x)
 
         if targets is not None:
@@ -266,7 +283,7 @@ class GPT(nn.Module):
         # start with all of the candidate parameters
         param_dict = {pn: p for pn, p in self.named_parameters()}
         # filter out those that do not require grad
-        param_dict = {pn: p for pn, p in param_dict.items() if p.requires_grad}
+        param_dict = {pn: p for pn, p in param_dict.items() if "lora_" in pn}
         # create optim groups. Any parameters that is 2D will be weight decayed, otherwise no.
         # i.e. all weight tensors in matmuls + embeddings decay, all biases and layernorms don't.
         decay_params = [p for n, p in param_dict.items() if p.dim() >= 2]
