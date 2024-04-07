@@ -22,5 +22,5 @@ gradient_accumulation_steps = 8
 max_iters = 2000
 
 # finetune at constant LR
-learning_rate = 0.00005
+learning_rate = 0.005
 decay_lr = True
