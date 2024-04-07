@@ -1,7 +1,7 @@
 import time
 
 out_dir = 'out-wiki'
-eval_interval = 10
+eval_interval = 500
 eval_iters = 40
 wandb_log = False # feel free to turn on
 wandb_project = 'wiki'
@@ -19,7 +19,7 @@ always_save_checkpoint = False
 batch_size = 4
 block_size = 1024
 gradient_accumulation_steps = 1
-max_iters = 2000
+max_iters = 10000
 
 # finetune at constant LR
 learning_rate = 0.0001
