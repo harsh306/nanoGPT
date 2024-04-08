@@ -194,9 +194,9 @@ class GPT(nn.Module):
         for block in self.transformer.h:
             count += 1
             x = block(x)
-            if count == 6:
+            if count == 10:
                 x_6 = x
-            if count == 9:
+            if count == 12:
                 x = x + self.lora_encoder(x_6)
 
         x = self.transformer.ln_f(x)
