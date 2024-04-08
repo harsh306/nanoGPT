@@ -94,7 +94,7 @@ class MLP(nn.Module):
 class LoRAEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
-        self.batch_size = 32
+        self.batch_size = 8
         self.block_size = 512
         self.rank= 8
         self.n_embd = config.n_embd
