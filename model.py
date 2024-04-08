@@ -103,8 +103,6 @@ class LoRAEncoder(nn.Module):
         nn.init.zeros_(self.lora_encoder.weight)
         self.lora_dropout = nn.Dropout(0.01)
 
-
-
         self.net = nn.Sequential(
             self.lora_dropout,
             self.lora_encoder,
