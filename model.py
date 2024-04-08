@@ -96,11 +96,12 @@ class LoRAEncoder(nn.Module):
         super().__init__()
         self.batch_size = 4
         self.block_size = 16
+        self.rank= 32
         self.n_embd = config.n_embd
-        self.lora_encoder = nn.Linear(self.n_embd * self.block_size, 16, bias=config.bias)
-        self.lora_encoder1 = nn.Linear(16, self.n_embd * self.block_size, bias=config.bias)
+        self.lora_encoder = nn.Linear(self.n_embd * self.block_size, self.rank, bias=config.bias)
+        self.lora_encoder1 = nn.Linear(self.rank, self.n_embd * self.block_size, bias=config.bias)
         nn.init.zeros_(self.lora_encoder.weight)
-        self.lora_dropout = nn.Dropout(0.1)
+        self.lora_dropout = nn.Dropout(0.01)
 
 
 
