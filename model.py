@@ -97,7 +97,7 @@ class LoRAEncoder(nn.Module):
         self.lora_encoder = nn.Linear(config.n_embd, config.n_embd, bias=config.bias)
         nn.init.zeros_(self.lora_encoder.weight)
         nn.init.zeros_(self.lora_encoder.bias)
-        self.lora_dropout = nn.Dropout(0.6)
+        self.lora_dropout = nn.Dropout(0.2)
 
     def forward(self, x):
         x = self.lora_encoder(self.lora_dropout(x))
