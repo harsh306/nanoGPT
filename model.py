@@ -98,7 +98,7 @@ class LoRAEncoder(nn.Module):
         self.lora_encoder1 = nn.Linear(16, config.n_embd *config.block_size, bias=config.bias)
         nn.init.zeros_(self.lora_encoder.weight)
         self.lora_dropout = nn.Dropout(0.1)
-        self.batch_size = config.batch_size
+        self.batch_size = 4
         self.block_size = config.block_size
         self.n_embd = config.n_embd
 
