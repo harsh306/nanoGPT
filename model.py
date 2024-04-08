@@ -100,15 +100,14 @@ class LoRAEncoder(nn.Module):
         self.n_embd = config.n_embd
         self.lora_encoder = nn.Linear(self.n_embd * self.block_size, self.rank, bias=config.bias)
         self.lora_encoder1 = nn.Linear(self.rank, self.n_embd * self.block_size, bias=config.bias)
-        nn.init.zeros_(self.lora_encoder.weight)
+        nn.init.zeros_(self.lora_encoder1.weight)
         self.lora_dropout = nn.Dropout(0.01)
 
         self.net = nn.Sequential(
             self.lora_dropout,
             self.lora_encoder,
-            nn.GELU(),
             self.lora_encoder1,
-            nn.GELU()
+
         )
 
     def forward(self, x):
