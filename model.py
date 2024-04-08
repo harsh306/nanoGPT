@@ -162,8 +162,8 @@ class GPT(nn.Module):
         # not 100% sure what this is, so far seems to be harmless. TODO investigate
         self.transformer.wte.weight = self.lm_head.weight # https://paperswithcode.com/method/weight-tying
         self.lora_encoder6 = LoRAEncoder(config)
-        self.lora_encoder8 = LoRAEncoder(config)
-        self.lora_encoder10 = LoRAEncoder(config)
+        # self.lora_encoder8 = LoRAEncoder(config)
+        # self.lora_encoder10 = LoRAEncoder(config)
 
         # init all weights
         self.apply(self._init_weights)
@@ -214,15 +214,15 @@ class GPT(nn.Module):
             if count == 12:
                 x = x + self.lora_encoder10(x_10)
 
-            if count == 8:
-                x_8 = x
-            if count == 10:
-                x = x + self.lora_encoder8(x_8)
-
-            if count == 6:
-                x_6 = x
-            if count == 8:
-                x = x + self.lora_encoder6(x_6)
+            # if count == 8:
+            #     x_8 = x
+            # if count == 10:
+            #     x = x + self.lora_encoder8(x_8)
+            #
+            # if count == 6:
+            #     x_6 = x
+            # if count == 8:
+            #     x = x + self.lora_encoder6(x_6)
 
         x = self.transformer.ln_f(x)
 
