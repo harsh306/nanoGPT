@@ -95,7 +95,7 @@ class LoRAEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.batch_size = 8
-        self.block_size = 512
+        self.block_size = 16
         self.rank = 8
         self.n_embd = config.n_embd
         self.lora_encoder = nn.Linear(self.n_embd * self.block_size, self.rank, bias=config.bias)
