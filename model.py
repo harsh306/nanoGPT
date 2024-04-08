@@ -94,8 +94,8 @@ class MLP(nn.Module):
 class LoRAEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
-        self.lora_encoder = nn.Linear(config.n_embd, config.n_embd, bias=config.bias)
-        self.lora_encoder1 = nn.Linear(config.n_embd, config.n_embd, bias=config.bias)
+        self.lora_encoder = nn.Linear(config.n_embd, 16, bias=config.bias)
+        self.lora_encoder1 = nn.Linear(16, config.n_embd, bias=config.bias)
         nn.init.zeros_(self.lora_encoder.weight)
         self.lora_dropout = nn.Dropout(0.1)
 
