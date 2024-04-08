@@ -112,7 +112,7 @@ class LoRAEncoder(nn.Module):
 
     def forward(self, x):
         print(x.shape)
-        x = x.view(self.batch_size, self.block_size * self.n_embd)
+        x = x.view(x.size(0), -1)
         x = self.net(x)
         x = x.view(self.batch_size, self.block_size, self.n_embd)
         return x
