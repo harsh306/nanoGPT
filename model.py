@@ -94,8 +94,8 @@ class MLP(nn.Module):
 class LoRAEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
-        self.lora_encoder = nn.Linear(config.n_embd*config.block_size, 16, bias=config.bias)
-        self.lora_encoder1 = nn.Linear(16, config.n_embd *config.block_size, bias=config.bias)
+        self.lora_encoder = nn.Linear(config.n_embd * config.block_size, 16, bias=config.bias)
+        self.lora_encoder1 = nn.Linear(16, config.n_embd * config.block_size, bias=config.bias)
         nn.init.zeros_(self.lora_encoder.weight)
         self.lora_dropout = nn.Dropout(0.1)
         self.batch_size = 4
@@ -111,6 +111,7 @@ class LoRAEncoder(nn.Module):
         )
 
     def forward(self, x):
+        print(x.shape)
         x = x.view(self.batch_size, self.block_size * self.n_embd)
         x = self.net(x)
         x = x.view(self.batch_size, self.block_size, self.n_embd)
