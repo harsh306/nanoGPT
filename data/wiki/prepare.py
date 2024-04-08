@@ -24,8 +24,9 @@ if __name__ == '__main__':
 
     # owt by default only contains the 'train' split, so create a test split
     split_dataset = dataset["train"].train_test_split(test_size=0.05, seed=2357, shuffle=True)
-    split_dataset['val'] = split_dataset.pop('test') # rename the test split to val
-    split_dataset['train'] = split_dataset['val']
+    split_dataset['val'] = dataset['test']
+    split_dataset['train'] = split_dataset.pop('test') # rename the test split to val
+    #split_dataset['train'] = split_dataset['val']
     print(len(split_dataset['train']), len(split_dataset['val']))
 
     # this results in:
