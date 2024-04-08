@@ -96,7 +96,7 @@ class LoRAEncoder(nn.Module):
         super().__init__()
         self.batch_size = 8
         self.block_size = 16
-        self.rank = 8
+        self.rank = 4
         self.n_embd = config.n_embd
         self.lora_encoder = nn.Linear(self.n_embd * self.block_size, self.rank, bias=config.bias)
         self.lora_encoder1 = nn.Linear(self.rank, self.n_embd * self.block_size, bias=config.bias)
@@ -164,6 +164,7 @@ class GPT(nn.Module):
         self.lora_encoder6 = LoRAEncoder(config)
         self.lora_encoder8 = LoRAEncoder(config)
         self.lora_encoder10 = LoRAEncoder(config)
+        self.lora_encoder4 = LoRAEncoder(config)
 
         # init all weights
         self.apply(self._init_weights)
@@ -223,6 +224,11 @@ class GPT(nn.Module):
                 x_6 = x
             if count == 8:
                 x = x + self.lora_encoder6(x_6)
+
+            if count == 4:
+                x_4 = x
+            if count == 6:
+                x = x + self.lora_encoder4(x_4)
 
         x = self.transformer.ln_f(x)
 
