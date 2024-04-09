@@ -116,6 +116,9 @@ class LoRAEncoder(nn.Module):
         x = x.view(self.batch_size, self.block_size, self.n_embd)
         return x
 
+    def number_of_trainable_parameters(self):
+        return sum(p.numel() for p in self.parameters() if p.requires_grad)
+
 class Block(nn.Module):
 
     def __init__(self, config):
